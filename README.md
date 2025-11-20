@@ -143,24 +143,6 @@ The KDE approach analyzes pixel intensity distributions to detect histogram tail
    python -c "import torch; print(f'PyTorch: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}')"
    ```
 
-### Manual Installation (Alternative)
-
-If you prefer manual installation:
-
-```bash
-# Create environment
-conda create -n droplet_classification_env python=3.11
-
-# Activate environment
-conda activate droplet_classification_env
-
-# Install conda packages
-conda install numpy pandas scipy scikit-learn pillow opencv matplotlib seaborn jupyter ipykernel
-
-# Install pip packages
-pip install torch torchvision tqdm xgboost umap-learn pyyaml
-```
-
 ---
 
 ## Quick Start
@@ -202,39 +184,6 @@ pip install torch torchvision tqdm xgboost umap-learn pyyaml
 
 ---
 
-## Performance Notes
-
-### GPU Acceleration
-- Classification speed increases 5-10x with GPU
-- Automatic device detection (CUDA if available)
-- Batch sizes auto-adjust based on hardware
-
-### Memory Requirements
-- Training: ~4-8 GB RAM (depends on dataset size)
-- Classification: ~2-4 GB RAM
-- GPU: 4+ GB VRAM recommended
-
-### Optimization Tips
-- Use feature caching in `train.ipynb` for multiple runs
-- Increase batch size if GPU memory allows
-- Pre-filter low-quality images before processing
-
----
-
-## Expected Results
-
-### Classification Performance
-Typical performance on balanced datasets:
-- **Accuracy:** 95-98%
-- **Precision/Recall:** 92-97% per class
-- **F1-Score:** 93-97% per class
-
-Performance depends on:
-- Image quality
-- Class separability
-- Training dataset size and balance
-- Droplet detection quality
-
 ### Output Files
 
 **From Training:**
@@ -251,55 +200,6 @@ Performance depends on:
 - Segmented binary images in respective category folders
 
 ---
-
-## Troubleshooting
-
-### Common Issues
-
-**1. "AttributeError: Can't get attribute" (multiprocessing error)**
-- Already fixed in notebooks - uses sequential processing
-- If encountered, restart kernel and run again
-
-**2. Out of memory errors**
-- Reduce batch size in classification (line with `bs = 500`)
-- Process fewer images at once
-- Close other applications
-
-**3. CUDA out of memory**
-- Reduce batch size to 200-300
-- Restart kernel to clear GPU memory
-
-**4. Slow feature extraction**
-- Ensure model caching is working (should see "Loading MobileNetV2..." only once)
-- Check if GPU is being used: `torch.cuda.is_available()`
-- Use feature cache in training notebook
-
-**5. Import errors**
-- Verify conda environment is activated
-- Reinstall problematic packages: `conda install <package>`
-- Check Python version: `python --version` (should be 3.11.x)
-
----
-
-## Key Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| Python | 3.11.13 | Core language |
-| PyTorch | 2.7.1 | Deep learning framework |
-| torchvision | 0.22.1 | Pre-trained models |
-| XGBoost | 3.0.2 | Gradient boosting classifier |
-| scikit-learn | 1.7.1 | ML metrics and preprocessing |
-| NumPy | 2.3.1 | Numerical computing |
-| Pandas | 2.3.0 | Data manipulation |
-| OpenCV | 4.12.0 | Image processing |
-| Matplotlib | 3.10.3 | Visualization |
-
-Full dependency list in `environment.yml`
-
----
-
-## Data Format Requirements
 
 ### Training Data
 ```
@@ -350,47 +250,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 For questions or issues:
 - Open an issue on GitHub
 - Contact: [your.email@institution.edu]
-
----
-
-## Acknowledgments
-
-- Pre-trained MobileNetV2 model from PyTorch model zoo
-- Built with PyTorch, XGBoost, and scikit-learn
-- Developed for analysis of biomolecular condensate microscopy data
-
----
-
-## Additional Resources
-
-### Recommended Reading
-- [MobileNetV2 paper](https://arxiv.org/abs/1801.04381) - Architecture details
-- [XGBoost documentation](https://xgboost.readthedocs.io/) - Classifier parameters
-- [Transfer Learning Tutorial](https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html) - PyTorch guide
-
-### Related Tools
-- [CellProfiler](https://cellprofiler.org/) - Alternative image analysis
-- [ImageJ/Fiji](https://fiji.sc/) - Manual image processing
-- [napari](https://napari.org/) - Python image viewer
-
----
-
-## Version History
-
-- **v1.0.0** (2025-11-20)
-  - Initial release
-  - Optimized classification pipeline (10-50x speedup)
-  - Fixed multiprocessing issues in Jupyter
-  - Comprehensive documentation
-
----
-
-## Future Improvements
-
-Potential enhancements:
-- [ ] Multi-GPU support for larger datasets
-- [ ] Real-time classification interface
-- [ ] Additional pre-trained model options (ResNet, EfficientNet)
-- [ ] Uncertainty estimation for predictions
-- [ ] Interactive visualization dashboard
-- [ ] Docker container for reproducibility
